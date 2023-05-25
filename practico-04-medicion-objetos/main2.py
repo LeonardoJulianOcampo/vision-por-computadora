@@ -5,7 +5,7 @@ img = cv2.imread('foto-prueba5.jpg')
 imgCopy = img.copy()
 ref_point = []
 trTemplate = None
-flag = 1
+flag = 0
 
 def computeL2Media(ref_point):
     # funcion que recibe las coordenadas seleccionadas en la función original,
@@ -42,46 +42,32 @@ def draw_dots(event, x, y, flags, param):
             cv2.imshow('Calibrada para medición', trTemplate)
             cv2.imwrite('imagenPerspectiva.jpg',trImg)
 
-def reset_image(event, x, y, flags, param):
-    global ref_point, imgCopy, trTemplate
 
-    if event == cv2.EVENT_LBUTTONDOWN:
-        ref_point = []
-        imgCopy = img.copy()
-        trTemplate = None
-        cv2.imshow('Calibrada para medición', imgCopy)
 
-def distances(event, x, y, flags, param):
-    pass
-
-#cv2.namedWindow('TP4: Medición de objetos')
-#cv2.setMouseCallback('TP4: Medición de objetos', draw_dots)
+cv2.namedWindow('TP4: Medición de objetos')
+cv2.setMouseCallback('TP4: Medición de objetos', draw_dots)
 
 while True:
+    cv2.imshow('TP4: Medición de objetos',imgCopy)
     
-    if flag == 1:
-        cv2.namedWindow('TP4: Medición de objetos')
-        cv2.setMouseCallback('TP4: Medición de objetos', draw_dots)
-        cv2.imshow('TP4: Medición de objetos', imgCopy)
-        flag = 0
-    
-    if flag == 2:
-        cv2.namedWindow('Imagen calibrada para medición')
-        cv2.setMouseCallback('Imagen calibrada para medición', distances)
-        cv2.imshow('Imagen calibrada para medición', trTemplate)
-        flag = 0
-
     k = cv2.waitKey(1) & 0xFF
 
-    if k == ord('q'):
-        break
-    elif k == ord('r'):
-        cv2.destroyAllWindows() 
-        imgCopy = img.copy()
-        flag = 1
-    if trTemplate is not None:
+    if k == ord("q"):
         cv2.destroyAllWindows()
-        flag = 2
+        break
+
+    if mask is not None:
+        flag = 1
+        cv2.destroyAllWindows()
+        break
+
+    if k == ord("r"):
+        pass
+        
 
 
-cv2.destroyAllWindows()
+
+    
+
+
+
