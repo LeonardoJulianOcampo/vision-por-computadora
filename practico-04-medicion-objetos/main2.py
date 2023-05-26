@@ -7,13 +7,10 @@ imgCopy = img.copy()
 ref_point = []
 l_ref_point = []
 trTemplate = None
-<<<<<<< HEAD
 trTemplate2 = None
 flag = 0
 drawing = False
-=======
 
->>>>>>> main
 
 def computeL2Media(ref_point):
     # funcion que recibe las coordenadas seleccionadas en la función original,
@@ -31,11 +28,7 @@ def computeL2Media(ref_point):
 
 
 def draw_dots(event, x, y, flags, param):
-<<<<<<< HEAD
     global ref_point, imgCopy, trTemplate, trImg, trTemplate2
-=======
-    global ref_point, imgCopy, trTemplate
->>>>>>> main
 
     if event == cv2.EVENT_LBUTTONDOWN:
 
