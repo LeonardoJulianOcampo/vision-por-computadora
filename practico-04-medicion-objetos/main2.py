@@ -7,13 +7,17 @@ imgCopy = img.copy()
 ref_point = []
 l_ref_point = []
 trTemplate = None
+<<<<<<< HEAD
 trTemplate2 = None
 flag = 0
 drawing = False
+=======
+
+>>>>>>> main
 
 def computeL2Media(ref_point):
     # funcion que recibe las coordenadas seleccionadas en la función original,
-    # determina el largo y ancho del cuadrilatero que resulta de ellas para luego determinar la relación de aspecto
+    # determina el largo y ancho del paralelogramo que resulta de ellas para luego determinar la relación de aspecto
     width_AD = np.sqrt(((ref_point[0][0]-ref_point[3][0])**2)+((ref_point[0][1]-ref_point[3][1])**2))
     width_BC = np.sqrt(((ref_point[1][0]-ref_point[2][0])**2)+((ref_point[1][1]-ref_point[2][1])**2))
     maxWidth = max(int(width_AD), int(width_BC))
@@ -27,7 +31,11 @@ def computeL2Media(ref_point):
 
 
 def draw_dots(event, x, y, flags, param):
+<<<<<<< HEAD
     global ref_point, imgCopy, trTemplate, trImg, trTemplate2
+=======
+    global ref_point, imgCopy, trTemplate
+>>>>>>> main
 
     if event == cv2.EVENT_LBUTTONDOWN:
 
