@@ -1,9 +1,6 @@
 # Práctico 3: Transformación perspectiva
 
-El programa carga una imagen por defecto y la muestra en una ventana.
+El programa lee una imagen que muestra objetos en perspectiva, realiza la transformación homónima con una serie de coordenadas pre establecidas y por último la región transformada
+es incrustada en una segunda imagen que hará de fondo.
 
-El usuario puede seleccionar 4 puntos en la ventana, los cuales son empleados para realizar una transformación perspectiva sobre una segunda imagen.
-
-Dicha imagen una vez transformada es incrustada en la primera, de forma que los vertices de la transformación coincidan con los puntos seleccionados por el usuario.
-
-Las imagenes son cargadas por defecto y el programa no requiere argumentos extra para su ejecución
+No requiere argumentos ni entrada alguna. Para cerrar el programa presionar 'q'.

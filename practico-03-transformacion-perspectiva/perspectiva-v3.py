@@ -21,45 +21,37 @@ def computeL2Media(ref_point):
     return dimensions
 
 
-
-
 ref_point = []
 result = None
 
-def draw_dots(event,x,y,flags,param):
+def draw_dots():
     global ref_point,fondo,testImg,mask,result
    
     trImg_w_borders = np.zeros((fondo.shape[1],fondo.shape[0]),np.uint8)
+    ref_point = [[480, 26], [468, 520], [657, 475], [666, 117]]
 
+    maxWidth, maxHeight = computeL2Media(ref_point)
+    
+    srcCoordinates = np.array(ref_point).astype(np.float32)
+    dstCoordinates = np.array([[0, 0], [0, maxHeight - 1], [maxWidth - 1, maxHeight - 1], [maxWidth - 1, 0]]).astype(np.float32)
 
-    if event == cv2.EVENT_LBUTTONDOWN:
-        if len(ref_point)<4:
-            ref_point.append([x,y])
-            cv2.circle(testImg,ref_point[-1],3,(0,0,255),-1)
-            cv2.imshow("image",testImg)
-        if len(ref_point) == 4:
-            maxWidth, maxHeight = computeL2Media(ref_point)
-            print(ref_point)
-            
-            srcCoordinates = np.array(ref_point).astype(np.float32)
-            dstCoordinates = np.array([[0, 0], [0, maxHeight - 1], [maxWidth - 1, maxHeight - 1], [maxWidth - 1, 0]]).astype(np.float32)
+    M = cv2.getPerspectiveTransform(srcCoordinates,dstCoordinates)
+    trImg = cv2.warpPerspective(testImg,M,(maxWidth,maxHeight),flags=cv2.INTER_LINEAR)
 
-            M = cv2.getPerspectiveTransform(srcCoordinates,dstCoordinates)
-            trImg = cv2.warpPerspective(testImg,M,(maxWidth,maxHeight),flags=cv2.INTER_LINEAR)
+    y_offset = (fondo.shape[1] - maxHeight) // 2
+    x_offset = (fondo.shape[0] - maxWidth ) // 2    
 
-            y_offset = (fondo.shape[1] - maxHeight) // 2
-            x_offset = (fondo.shape[0] - maxWidth ) // 2    
+    trImg_w_borders[y_offset:y_offset+maxHeight, x_offset:x_offset+maxWidth] = trImg
 
-            trImg_w_borders[y_offset:y_offset+maxHeight, x_offset:x_offset+maxWidth] = trImg
-
-            mask = (trImg_w_borders > 0) * 1 
-            result = (1 - mask) * fondo + (mask) * trImg_w_borders
+    mask = (trImg_w_borders > 0) * 1 
+    result = (1 - mask) * fondo + (mask) * trImg_w_borders
 
 cv2.namedWindow('image')
-cv2.setMouseCallback('image', draw_dots)
+cv2.namedWindow('output')
 
 while True:
     cv2.imshow('image',testImg)
+    draw_dots()
     if result is not None:
         result = cv2.convertScaleAbs(result)
         cv2.imshow('output',result)
@@ -67,6 +59,5 @@ while True:
     k = cv2.waitKey(1) & 0xFF
 
     if k == ord("q"):
-        break;
-
-cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
+        break
