@@ -40,28 +40,20 @@ def calibrate():
     trImg = cv2.warpPerspective(img, M, (maxWidth, maxHeight), flags=cv2.INTER_LINEAR)
     trTemplate = trImg.copy()
     trTemplate2 = trImg.copy()
-    #cv2.imshow('imagen_claibrada', trTemplate)
     cv2.imwrite('imagenPerspectiva.jpg',trImg)
 
 
+
 def draw_lines(event,x,y,flags,param):
-    global lines_ref_point, drawing, ix, iy, trTemplate, trImg, trTemplate2
+    global l_ref_point, drawing, ix, iy, trTemplate, trImg
 
     if event == cv2.EVENT_LBUTTONDOWN:
-        drawing = True
-        ix,iy = x,y
-        l_ref_point.append((x,y))
-    elif event == cv2.EVENT_LBUTTONUP:
-        drawing = False
-        l_ref_point.append((x,y))
-        trTemplate2 = trImg.copy()
-    elif event == cv2.EVENT_MOUSEMOVE:
-        if drawing == True:
-            trImg = trTemplate2.copy()
-            cv2.line(trImg,(ix,iy),(x,y),(0,255,0),2)
-            dist = measure_distance((ix,iy),(x,y))
-            print_distance(dist,(ix,iy),(x,y))
-
+        if len(l_ref_point) < 2:
+            l_ref_point.append((x,y))
+        if len(l_ref_point) == 2:
+            cv2.line(trImg,l_ref_point[0],l_ref_point[1],(0,255,0),2)
+            dist = measure_distance(l_ref_point[1],l_ref_point[0])
+            print_distance(dist,l_ref_point[1],l_ref_point[0])
 
 #Los argumentos son tuplas de la forma dotA = (x,y) dotB = (ix,iy)
 def measure_distance(dotA,dotB):        
@@ -156,8 +148,9 @@ while True:
                 break
 
             if k == ord("r"):
-                trImg = trTemplate
-                trTemplate2 = trTemplate.copy()
-                ref_point.clear()
+                trImg = trTemplate.copy()
+                l_ref_point.clear()
+                break
+                
                 
 
