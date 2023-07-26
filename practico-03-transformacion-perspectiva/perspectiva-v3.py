@@ -55,7 +55,6 @@ def ordena(coordenadas):
 def draw_dots(event,x,y,flags,param):
     global ref_point,c_ord,fondo,testImg,mask,result,trImg
     
-    angle = 270
 
     trImg_w_borders = np.zeros((fondo.shape[1],fondo.shape[0]),np.uint8)
     #ref_point = [[480, 26], [468, 520], [657, 475], [666, 117]]
